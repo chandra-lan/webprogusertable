@@ -1,31 +1,25 @@
 <?php
+  include 'connect.php';
 
-include 'connect.php';
+  // SQL untuk membuat tabel users
+  $sql = "CREATE TABLE users (
+      id INT(11) NOT NULL AUTO_INCREMENT,
+      username VARCHAR(50) UNIQUE NOT NULL,
+      password VARCHAR(100) NOT NULL,
+      fullname VARCHAR(50) NOT NULL,
+      role VARCHAR(20) NOT NULL,
+      status ENUM('active', 'inactive') DEFAULT 'inactive',
+      reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      PRIMARY KEY (id)
+  )";
 
-// sql to create table
-// $sql = "CREATE TABLE MyGuests (
-// id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-// firstname VARCHAR(30) NOT NULL,
-// lastname VARCHAR(30) NOT NULL,
-// email VARCHAR(50),
-// reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-// )";
+  // Mengeksekusi query dan menampilkan hasil
+  if ($conn->query($sql) === TRUE) {
+      echo "Table 'users' created successfully";
+  } else {
+      echo "Error creating table: " . $conn->error;
+  }
 
-// sql to create table
-$sql = "CREATE TABLE user(
-id INT(11) NOT NULL AUTO_INCREMENT,
-username VARCHAR(60) NOT NULL,
-password VARCHAR(20) NOT NULL,
-fullname VARCHAR(60) NOT NULL,
-created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY (id) 
-)";
-
-if ($conn->query($sql) === TRUE) {
-  echo "Table MyGuests created successfully";
-} else {
-  echo "Error creating table: " . $conn->error;
-}
-
-$conn->close();
+  $conn->close();
 ?>
